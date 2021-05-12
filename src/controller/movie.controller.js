@@ -3,8 +3,8 @@ const Movie = require('../model/movie.model.js');
 const fs = require('fs')
 const faker = require('faker');
 const http = require('http');
-const { getStates } = require('./state.controller.js');
-const { getAllCategories } = require('./category.controller.js');
+const { getStates, getState } = require('./state.controller.js');
+const { getAllCategories, getCategory } = require('./category.controller.js');
 
 
 /**
@@ -110,6 +110,24 @@ exports.movieAddPage = (req, res) => {
         })
     });
 };
+
+exports.movieDetailPage = (req, res) => {
+    this.getMovie(req, res, (movie) => {
+        getStates(req, res, (states) => {
+            getAllCategories(req, res, (categories) => {
+                res.render("movies/movie-detail", {
+                    movie: movie,
+                    selectedState: states.find(state => state.id == movie.stateID),
+                    selectedCategory: categories.find(category => category.id == movie.categoryID),
+                });
+            })
+        })
+
+    })
+
+};
+
+
 
 
 

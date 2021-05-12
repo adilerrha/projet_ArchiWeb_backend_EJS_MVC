@@ -3,11 +3,16 @@ module.exports = function(app) {
     const movies = require('../controller/movie.controller.js');
     const imageUploader = require("../helpers/image-uploader")
 
+
+
+
     app.get('/movies/add', movies.movieAddPage);
     app.post('/movies', imageUploader.upload.single('image'), validator.validateMovie, movies.addMovie);
     // app.get('/movies/:id', movies.getMovie);
     app.get('/movies', movies.getAllMovies);
     app.get('/movies/delete/:id', movies.deleteMovie);
+
+    app.get('/movies/detail/:id', movies.movieDetailPage);
 
 
     app.get('/movies/edit/:id', movies.movieEditPage);
