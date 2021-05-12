@@ -1,5 +1,35 @@
 const { validationResult } = require('express-validator');
 const Category = require('../model/category.model.js');
+const Movie = require('../model/movie.model.js');
+const { getStates } = require('./state.controller.js');
+exports.categoryPage = (req, res) => {
+    Movie.findAll((err, results) => {
+        if (err) {
+            res.status(500).send({ message: "Une erreur interne s'est produite !" });
+        } else {
+            getStates(req, res, (states) => {
+                this.getAllCategories(req, res, (categories) => {
+                    let statesMapped = results.flatMap(movie => states.filter(state => state.id == movie.stateID).map(x => x));
+                    let categoriesMapped = results.flatMap(movie => categories.filter(category => category.id == movie.categoryID).map(x => x));
+                    res.render('categories/category-list', {
+                        movies: results,
+                        states: statesMapped,
+                        categories: categoriesMapped
+                    });
+                });
+            });
+        }
+    });
+
+}
+
+
+exports.categoryAddPage = (req, res) => {
+
+    res.render("categories/category-add");
+};
+
+
 
 /**
  * Ajouter une catégorie
@@ -21,7 +51,7 @@ exports.addCategory = (req, res) => {
                 res.status(500).send({ message: "Une erreur interne s'est produite !" })
             }
         } else {
-            res.status(201).send(result);
+            res.redirect('/category-list');
         }
     });
 };

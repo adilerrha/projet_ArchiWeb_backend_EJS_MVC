@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<style>
+    .card {
+        padding: 2%;
+    }
+</style>
+
+<body>
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main class="container" style="margin-top:2%">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-sm">
+                    <h1>La liste des films</h1>
+                </div>
+
+                <!--<div class="col-sm-3">
+                    <form action="/movies" method="GET">
+                        <select id="state" name="state" class="form-control">
+                        <% optionsStates.forEach(function(option) { %>
+                            <option name="<%= option.id %>" value="<%= option.id %>">
+                                <%= option.name%>
+                           </option>
+                        <% }); %>
+                        </select>
+                    </form>
+                </div>-->
+
+                <div class="col-sm-2">
+                    <a class="btn btn-primary" href="/movies/add">Ajouter un film</a>
+                </div>
+            </div>
+            <div class="row">
+                <% movies.forEach(function(movie,i) { %>
+                    <div class="col-auto">
+                        <div class="card" style="width: 19rem;">
+                            <img class="card-img-top" src="<%= movie.urlImage %>" alt="Card image cap">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <%=movie.title%>
+                                </h4>
+                                <p class="card-text">
+                                    <b>Auteur</b> :
+                                    <%=movie.director%><br/>
+                                        <b>Année de sortie</b> :
+                                        <%=movie.releaseYear%><br/>
+                                            <b>Durée</b> :
+                                            <%= movie.duration %> minutes<br/>
+                                                <b>Status</b> : <b><span style="text-align:right;color:<%= states[i].color %>"><%= states[i].name %></span></b>
+                                </p>
+                                <div class="row">
+                                    <div class="col">
+                                        <a href="/movies/info/<%= movie.id %>"><button class="btn btn-info"><i class="fa fa-info"></i></button></a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="/movies/edit/<%= movie.id %>"><button class="btn btn-warning"><i class="fa fa-edit"></i></button></a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="/movies/delete/<%= movie.id %>"><button class="btn btn-danger"><i class="fa fa-trash"></i> </button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <% }); %>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+
+</html>

@@ -4,10 +4,10 @@ module.exports = function(app) {
 
     app.get('/', (req, res) => res.redirect('/login'));
     app.get('/login', (req, res) => {
-        res.render('login');
+        res.render('accounts/login');
     });
     app.get('/register', (req, res) => {
-        res.render('register');
+        res.render('accounts/register');
     });
     app.post('/register', validator.validateRegisterUser, users.register);
     app.post('/login', validator.validateLoginUser, users.login);

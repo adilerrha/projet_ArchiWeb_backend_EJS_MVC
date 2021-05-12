@@ -3,8 +3,7 @@ const Movie = require('../model/movie.model.js');
 const fs = require('fs')
 const faker = require('faker');
 const http = require('http');
-const { getStates, getState } = require('./state.controller.js');
-const { state } = require('../configuration/database.config.js');
+const { getStates } = require('./state.controller.js');
 const { getAllCategories } = require('./category.controller.js');
 
 
@@ -54,12 +53,12 @@ exports.getAllMovies = (req, res) => {
         } else {
             getStates(req, res, (states) => {
                 let statesMapped = results.flatMap(movie => states.filter(state => state.id == movie.stateID).map(x => x));
-                res.render('movie-list', {
+                res.render('movies/movie-list', {
                     movies: results,
-                    states: statesMapped
+                    states: statesMapped,
+                    optionsStates: states
                 });
             });
-
         }
     });
 };
@@ -91,7 +90,7 @@ exports.movieEditPage = (req, res) => {
     this.getMovie(req, res, (movie) => {
         getStates(req, res, (states) => {
             getAllCategories(req, res, (categories) => {
-                res.render("movie-edit", {
+                res.render("movies/movie-edit", {
                     movie: movie,
                     optionsStates: states,
                     optionsCategories: categories
@@ -104,7 +103,7 @@ exports.movieEditPage = (req, res) => {
 exports.movieAddPage = (req, res) => {
     getStates(req, res, (states) => {
         getAllCategories(req, res, (categories) => {
-            res.render("movie-add", {
+            res.render("movies/movie-add", {
                 optionsStates: states,
                 optionsCategories: categories
             });
