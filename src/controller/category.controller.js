@@ -2,6 +2,12 @@ const { validationResult } = require('express-validator');
 const Category = require('../model/category.model.js');
 const Movie = require('../model/movie.model.js');
 const { getStates } = require('./state.controller.js');
+
+/**
+ * La page des catégories
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.categoryPage = (req, res) => {
     Movie.findAll((err, results) => {
         if (err) {
@@ -23,9 +29,12 @@ exports.categoryPage = (req, res) => {
 
 }
 
-
+/**
+ * Page d'ajout de catégorie
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.categoryAddPage = (req, res) => {
-
     res.render("categories/category-add");
 };
 

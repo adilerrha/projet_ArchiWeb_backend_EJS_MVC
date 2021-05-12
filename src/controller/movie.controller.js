@@ -85,7 +85,11 @@ exports.getMovie = (req, res, cb) => {
 };
 
 
-
+/**
+ * Page d'édition de film
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.movieEditPage = (req, res) => {
     this.getMovie(req, res, (movie) => {
         getStates(req, res, (states) => {
@@ -100,6 +104,12 @@ exports.movieEditPage = (req, res) => {
         });
     });
 };
+
+/**
+ * Page d'ajout de film
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.movieAddPage = (req, res) => {
     getStates(req, res, (states) => {
         getAllCategories(req, res, (categories) => {
@@ -111,6 +121,11 @@ exports.movieAddPage = (req, res) => {
     });
 };
 
+/**
+ * Page pour voir les détails d'un film en particulier
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.movieDetailPage = (req, res) => {
     this.getMovie(req, res, (movie) => {
         getStates(req, res, (states) => {
@@ -127,12 +142,6 @@ exports.movieDetailPage = (req, res) => {
 
 };
 
-
-
-
-
-
-
 /**
  * Modifier un film
  * @param {*} req 
@@ -146,7 +155,6 @@ exports.updateMovie = (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).send({ error: errors.array()[0].msg });
     }
-
     Movie.findById(id, (err, result) => {
         if (err) {
             res.status(500).send({ message: "Une erreur interne s'est produite !" })

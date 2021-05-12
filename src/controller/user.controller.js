@@ -53,6 +53,11 @@ exports.login = (req, res) => {
 };
 
 
+/**
+ * Déconnecter l'utilisateur
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.logout = (req, res) => {
     if (req.session) {
         req.session.destroy();

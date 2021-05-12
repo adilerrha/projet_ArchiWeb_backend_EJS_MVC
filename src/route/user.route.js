@@ -3,6 +3,7 @@ module.exports = function(app) {
     const users = require('../controller/user.controller.js');
 
     app.get('/', (req, res) => res.redirect('/login'));
+
     app.get('/login', (req, res) => {
         res.render('accounts/login');
     });
