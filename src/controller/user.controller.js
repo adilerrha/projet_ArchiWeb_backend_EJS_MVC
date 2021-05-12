@@ -43,6 +43,7 @@ exports.login = (req, res) => {
             res.status(500).send({ error: "Une erreur interne s'est produite !" })
         } else {
             if (result) {
+                req.session.currentUser = result;
                 res.redirect('/movies')
             } else {
                 res.status(401).send({ error: "L'utilisateur/Mot de passe ne sont pas correct !" })
@@ -50,6 +51,14 @@ exports.login = (req, res) => {
         }
     });
 };
+
+
+exports.logout = (req, res) => {
+    if (req.session) {
+        req.session.destroy();
+    }
+    res.redirect('/');
+}
 
 /**
  * Récupérer l'utilisateur par son identifiant

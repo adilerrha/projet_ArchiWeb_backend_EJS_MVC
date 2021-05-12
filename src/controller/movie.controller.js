@@ -14,24 +14,28 @@ const { getAllCategories } = require('./category.controller.js');
  * @param {*} res 
  */
 exports.addMovie = (req, res) => {
+
     if (req.file == undefined) {
         res.status(400).send({
             message: 'Vous devez sélectionner un fichier image !'
         });
     }
-    let { title, description, director, releaseYear, duration, stateID, userID, categoryID } = req.body;
 
+
+    let { title, description, director, releaseYear, duration, stateID, categoryID } = req.body;
+    console.log(req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).send({ error: errors.array()[0].msg });
     }
+    let { id } = req.session.currentUser;
 
-    let movie = new Movie(title, description, director, releaseYear, duration, stateID, `/uploads/${req.file.filename}`, userID, categoryID);
+    let movie = new Movie(title, description, director, releaseYear, duration, stateID, `/uploads/${req.file.filename}`, id, categoryID);
     movie.save((err, result) => {
         if (err) {
             res.status(500).send({ message: "Une erreur interne s'est produite !" });
         } else {
-            res.status(201).send(result);
+            res.redirect('/movies');
         }
     })
 };

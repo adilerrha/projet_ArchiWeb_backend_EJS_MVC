@@ -2,11 +2,20 @@ let express = require('express');
 let app = express();
 let path = require('path');
 const cors = require('cors')
+const session = require('express-session');
+const { isAuthenticated } = require('./util/util.js');
 
 app.use(express.json());
 
 app.use(express.urlencoded({
     extended: true
+}));
+
+app.use(session({
+    secret: 'maSessionSecrete',
+    saveUninitialized: true,
+    resave: true,
+    maxAge: 24 * 60 * 60 * 1000 //24 heures
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -20,6 +29,24 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
+
+
+//Middleware
+app.use((req, res, next) => {
+    if (req.path == '/login' || req.path == '/register') {
+        if (isAuthenticated(req)) {
+            res.redirect('/movies');
+        } else {
+            next();
+        }
+    } else {
+        if (!isAuthenticated(req)) {
+            res.redirect('/login');
+        } else {
+            next();
+        }
+    }
+})
 
 //Base de donnée
 require('./configuration/database.config.js');

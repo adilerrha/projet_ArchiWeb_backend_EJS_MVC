@@ -12,5 +12,5 @@ module.exports = function(app) {
     app.post('/register', validator.validateRegisterUser, users.register);
     app.post('/login', validator.validateLoginUser, users.login);
     app.get('/users/:id', validator.validateLoginUser, users.getUser);
-
+    app.get("/logout", users.logout);
 }
